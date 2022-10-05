@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Suspense } from 'react';
 import './App.css';
+import Layout from './components/layout';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+import HomeContainer from './containers/HomeContainer';
 
-function App() {
+const Loading = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<h1>Loading</h1>}>
+    {children}
+  </Suspense>
+)
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path="/app" element={<Loading><HomeContainer /></Loading>} />
+            <Route path="/login" element={<Loading><h1>Login</h1></Loading>} />
+            <Route path="*" element={<Navigate to="/app" replace />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
