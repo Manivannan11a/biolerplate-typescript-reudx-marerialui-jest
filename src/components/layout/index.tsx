@@ -1,18 +1,19 @@
-import { createTheme, ThemeProvider } from "@mui/material";
-import { colors } from "../../constants/theme-color";
+import React from 'react';
+
 import Footer from "./Footer";
 import Header from "./Header";
 
+import("../../theme/"+ process.env.REACT_APP_ACTIVE_THEME +".css");
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const theme = createTheme({
-    palette: colors["green"],
-  });
+
   return (
-    <ThemeProvider theme={theme}>
+    <>
+      <h1 className='light'>hello</h1>
       <Header />
       {children}
       <Footer />
-    </ThemeProvider>
+    </>
   )
 }
 
